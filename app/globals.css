@@ -1,26 +1,359 @@
 @import "tailwindcss";
+@config "../tailwind.config.ts";
 
+/*
+ * ─────────────────────────────────────────────────────────────────
+ *  DESIGN SYSTEM — LIGHT THEME ("Cool Porcelain / Slate / Cobalt")
+ *  Single source of truth. Swatch page: /design
+ * ─────────────────────────────────────────────────────────────────
+ *
+ *  BACKGROUNDS
+ *  --bg              #FAFBFC  Page background. Cool porcelain, not gray.
+ *  --bg-elevated     #FFFFFF  Cards, nav, inputs — pure white lift off --bg.
+ *  --surface         #F2F4F7  Recessed zones: footer, code wells, placeholders.
+ *  --surface-hover   #E9EDF2  Hover state for surface-toned interactive rows.
+ *
+ *  TEXT (contrast vs #FAFBFC / #FFFFFF)
+ *  --text-primary    #0F172A  Headings, body. ~16.2:1 — AAA.
+ *  --text-secondary  #475569  Supporting copy, labels. ~7.6:1 — AAA.
+ *  --text-muted      #64748B  Timestamps, placeholders, captions. ~4.8:1 — AA.
+ *
+ *  BORDERS
+ *  --border          #E5E9F0  Hairline default. Barely-there separation.
+ *  --border-strong   #CBD5E1  Input borders, emphasized dividers.
+ *
+ *  ACTION
+ *  --primary         #0F172A  Primary buttons — slate ink, quiet confidence.
+ *  --primary-hover   #1E293B  Primary button hover.
+ *  --accent          #2557D6  Cobalt. Links, active states, key CTAs ONLY.
+ *                             ~5.9:1 on white — AA for text.
+ *  --accent-hover    #1D46B0  Link/CTA hover.
+ *  --accent-subtle   #EAF0FD  Pale azure wash: selection, active-nav pill,
+ *                             highlight chips. Never for text.
+ *
+ *  FEEDBACK
+ *  --success         #15803D  Form success. ~5.0:1 on white — AA.
+ *  --error           #B91C1C  Form errors. ~5.9:1 on white — AA.
+ *
+ *  Light theme only — no dark-scheme override, by design.
+ * ─────────────────────────────────────────────────────────────────
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #fafbfc;
+  --bg-elevated: #ffffff;
+  --surface: #f2f4f7;
+  --surface-hover: #e9edf2;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  --border: #e5e9f0;
+  --border-strong: #cbd5e1;
+
+  --primary: #0f172a;
+  --primary-hover: #1e293b;
+
+  --accent: #2557d6;
+  --accent-hover: #1d46b0;
+  --accent-subtle: #eaf0fd;
+
+  --success: #15803d;
+  --error: #b91c1c;
+
+  /* Elevation — soft, cool-tinted. Cards sit up via shadow, not border weight. */
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 2px 8px rgb(15 23 42 / 0.04);
+  --shadow-card-hover:
+    0 2px 4px rgb(15 23 42 / 0.05), 0 8px 24px rgb(15 23 42 / 0.07);
+
+  /*
+   * ───────────────────────────────────────────────────────────────
+   *  TYPOGRAPHY — Bricolage Grotesque (headings) / Figtree (body)
+   *
+   *  Type scale on an 8px vertical rhythm. Fixed sizes (H3 and below)
+   *  use line-heights that are exact 8px/4px-grid multiples; fluid
+   *  sizes (display/H1/H2) use tight unitless leading and rely on the
+   *  grid-multiple margins below to keep flow on rhythm.
+   *
+   *  Token            size (min→max)      line-height   use
+   *  --text-display   44→72px             1.05          Hero statement only
+   *  --text-h1        36→56px             1.1           Page titles
+   *  --text-h2        28→40px             1.2           Section headings
+   *  --text-h3        20→24px             32px          Card titles, sub-sections
+   *  --text-body-lg   18px                28px          Intros, lede paragraphs
+   *  --text-body      16px                24px          Default body copy
+   *  --text-caption   13px                20px          Timestamps, photo credits
+   *  --text-label     14px                20px          Buttons, nav, form labels,
+   *                                                     eyebrow kickers (tracked)
+   * ───────────────────────────────────────────────────────────────
+   */
+  --text-display: clamp(2.75rem, 1.5rem + 4.5vw, 4.5rem);
+  --leading-display: 1.05;
+  --tracking-display: -0.02em;
+
+  --text-h1: clamp(2.25rem, 1.5rem + 2.75vw, 3.5rem);
+  --leading-h1: 1.1;
+  --tracking-h1: -0.02em;
+
+  --text-h2: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
+  --leading-h2: 1.2;
+  --tracking-h2: -0.01em;
+
+  --text-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --leading-h3: 2rem; /* 32px */
+  --tracking-h3: -0.005em;
+
+  --text-body-lg: 1.125rem; /* 18px */
+  --leading-body-lg: 1.75rem; /* 28px */
+
+  --text-body: 1rem; /* 16px */
+  --leading-body: 1.5rem; /* 24px */
+
+  --text-caption: 0.8125rem; /* 13px */
+  --leading-caption: 1.25rem; /* 20px */
+
+  --text-label: 0.875rem; /* 14px */
+  --leading-label: 1.25rem; /* 20px */
+  --tracking-label: 0.01em;
+  /* Eyebrow/kicker variant of label — uppercase, wide tracked. */
+  --tracking-eyebrow: 0.08em;
+
+  /*
+   * GLASS — light glassmorphism (glass3d.dev style, light theme).
+   * Semi-transparent white over a blur+saturate backdrop, hairline
+   * low-opacity white border, inner top highlight, soft drop shadow.
+   * Consumed by the `.glass` utility below; floating navbar in Phase 4.
+   */
+  --glass-bg: rgb(255 255 255 / 0.55);
+  --glass-border: rgb(255 255 255 / 0.65);
+  --glass-blur: 16px;
+  --glass-saturate: 180%;
+  --glass-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.75), 0 1px 2px rgb(15 23 42 / 0.04),
+    0 8px 32px rgb(15 23 42 / 0.08);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/*
+ * Base vertical rhythm — 8px grid site-wide.
+ * Flowed text elements get grid-multiple top margins against a preceding
+ * sibling (lobotomized owl keeps first children flush). Sections and
+ * components space themselves with Tailwind utilities in 8px steps
+ * (space-y-2/4/6/8 …); these defaults cover prose-like flow.
+ */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--text-primary);
+    text-wrap: balance;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  h1 {
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+    letter-spacing: var(--tracking-h2);
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+    letter-spacing: var(--tracking-h3);
+  }
+
+  p {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+  }
+
+  /* Rhythm: 8px between paragraphs, 24px before a heading that follows
+     flowed content, 16px between a heading and what comes after it is
+     handled by the heading's own line-height + following margin. */
+  * + p {
+    margin-top: 0.5rem; /* 8px */
+  }
+
+  * + h2 {
+    margin-top: 3rem; /* 48px */
+  }
+
+  * + h3 {
+    margin-top: 1.5rem; /* 24px */
+  }
+
+  code,
+  pre,
+  kbd {
+    font-family: var(--font-mono);
   }
 }
 
+/*
+ * .glass — reusable light-glassmorphism surface.
+ * Use on floating chrome (navbar, toasts) layered over imagery/content.
+ * Pair with a radius utility (rounded-2xl etc.) at the call site.
+ */
+@utility glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+::selection {
+  background: var(--accent-subtle);
+  color: var(--text-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/*
+ * Anchor scrolling — in-page jumps land below the fixed floating navbar
+ * instead of underneath it. Smooth scroll only when the visitor hasn't
+ * asked for reduced motion.
+ */
+html {
+  scroll-padding-top: 6rem; /* clears the floating pill (+ breathing room) */
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────────
+ *  HERO AURORA — the hero's single signature ambient effect.
+ *  Reactbits-inspired but hand-rolled: a few soft cobalt/azure blobs
+ *  drift slowly behind the headline over the porcelain --bg. Opacity
+ *  is kept low so text contrast (near-black on porcelain) is untouched,
+ *  and the effect is masked out toward the bottom so the hero blends
+ *  into the next section rather than ending on a hard edge.
+ *  One effect only — no grid, no particles stacked on top.
+ *  Motion is disabled under prefers-reduced-motion (a static wash remains).
+ * ─────────────────────────────────────────────────────────────────
+ */
+.hero-aurora {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+.hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(72px);
+  will-change: transform;
+}
+.hero-blob--1 {
+  width: 42rem;
+  height: 42rem;
+  top: -14rem;
+  left: -8rem;
+  background: radial-gradient(
+    circle at center,
+    rgb(37 87 214 / 0.1),
+    transparent 70%
+  );
+  animation: hero-drift-1 32s ease-in-out infinite alternate;
+}
+.hero-blob--2 {
+  width: 34rem;
+  height: 34rem;
+  top: -8rem;
+  right: -8rem;
+  background: radial-gradient(
+    circle at center,
+    rgb(37 87 214 / 0.06),
+    transparent 70%
+  );
+  animation: hero-drift-2 36s ease-in-out infinite alternate;
+}
+.hero-blob--3 {
+  width: 30rem;
+  height: 30rem;
+  top: 8rem;
+  left: 32%;
+  background: radial-gradient(
+    circle at center,
+    rgb(129 160 245 / 0.08),
+    transparent 70%
+  );
+  animation: hero-drift-3 40s ease-in-out infinite alternate;
+}
+@keyframes hero-drift-1 {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2rem, 1.5rem, 0) scale(1.04);
+  }
+}
+@keyframes hero-drift-2 {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-1.5rem, 1rem, 0) scale(1.02);
+  }
+}
+@keyframes hero-drift-3 {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-1rem, -1.5rem, 0) scale(1.05);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob {
+    animation: none !important;
+  }
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────────
+ *  DOODLE FLOAT — gentle idle hover for the About-section portrait.
+ *  The About component starts this `paused` via inline style and
+ *  flips to `running` after the GSAP scroll reveal completes, so
+ *  the float never plays before the element is visible.
+ * ─────────────────────────────────────────────────────────────────
+ */
+.doodle-float {
+  animation: doodle-float 8s ease-in-out infinite;
+}
+@keyframes doodle-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doodle-float {
+    animation: none !important;
+  }
 }

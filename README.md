@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Neev Rambhia — Portfolio v2
 
-## Getting Started
+A high-performance, minimalist personal portfolio built to showcase engineering projects, open source contributions, and UI/UX design work. 
 
-First, run the development server:
+Designed and engineered with a focus on speed, typography, and graceful motion.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animation**: [GSAP](https://gsap.com/) (Scroll-driven reveals) + [Framer Motion](https://www.framer.com/motion/) (Micro-interactions)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Typography**: Bricolage Grotesque (Headings) & Figtree (Body) via `next/font`
+- **Forms**: [Web3Forms](https://web3forms.com/) (Client-side email forwarding)
+
+## 📁 Project Structure
+
+```text
+├── app/                  # Next.js App Router (pages, layout, routing, SEO)
+│   ├── (site)/           # Route group for main site pages
+│   └── globals.css       # Global design tokens and tailwind configuration
+├── components/           # React components
+│   ├── layout/           # Shared structural components (Nav, Footer)
+│   ├── sections/         # Major page sections (Hero, About, Projects)
+│   └── ui/               # Reusable primitive components (Cards, Badges)
+├── content/              # Raw data layer (projects, profile info)
+├── lib/                  # Utilities (GSAP setup, cn, metadata, fonts)
+└── public/               # Static assets (images, favicons)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Local Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Environment Variables**
+   Copy `.env.example` to `.env.local` and add your Web3Forms access key (required for the contact form to function).
+   ```bash
+   cp .env.example .env.local
+   ```
 
-## Learn More
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## 📈 Performance & SEO
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is built to score 90+ on Lighthouse out-of-the-box.
+- **Images**: Ensure all imagery added to `public/` is optimized (WebP/AVIF) and utilizes the `next/image` component to prevent Cumulative Layout Shift (CLS).
+- **Accessibility**: All interactive elements are fully keyboard navigable with visible `:focus-visible` states globally enforced in `globals.css`. Contrast ratios meet WCAG AA standards.
+- **SEO**: `robots.txt` and `sitemap.xml` are dynamically generated via `app/robots.ts` and `app/sitemap.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌐 Deployment
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Designed for seamless deployment on [Vercel](https://vercel.com).
+Simply connect your GitHub repository and Vercel will automatically configure the build settings for Next.js.
