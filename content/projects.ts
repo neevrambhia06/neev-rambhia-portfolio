@@ -47,11 +47,65 @@ function section(
 
 export const projects: Project[] = [
   {
+    slug: "codeatlas",
+    title: "CodeAtlas (AI Software Reasoning Engine)",
+    summary:
+      "AI-powered Software Reasoning Engine that analyzes source code repositories to reconstruct business capabilities, user journeys, architecture, and logic gaps using knowledge graphs and evidence-backed AI reasoning.",
+    tech: ["Next.js", "TypeScript", "FastAPI", "Neo4j", "PostgreSQL", "OpenAI"],
+    featured: true,
+    caseStudy: {
+      overview: section("overview", "Overview", [
+        "CodeAtlas is an AI-powered Software Reasoning Engine designed to help developers understand unfamiliar codebases without manually reading thousands of lines of code. It parses repositories, builds a software knowledge graph, infers the application's business domain, reconstructs user journeys, detects implemented capabilities, and identifies potential logic gaps with explainable, evidence-backed reasoning.",
+        "Unlike AI coding assistants that generate code, CodeAtlas focuses on understanding existing software systems by transforming source code into actionable architectural and business insights."
+      ]),
+      problemStatement: section("problem-statement", "Problem Statement", [
+        "Developers onboarding onto unfamiliar codebases spend days reading thousands of lines of code to understand what a system actually does. There was no tool that could transform an existing repository into business-level insight — capabilities, user journeys, and logic gaps — with evidence to back every claim."
+      ]),
+      research: section("research", "Research", []),
+      planning: section("planning", "Planning", []),
+      architecture: section("architecture", "Architecture", [
+        "I designed the complete Software Reasoning architecture: an AST-based repository parsing pipeline feeds a software knowledge graph (Neo4j), which powers a Domain Inference Engine, Capability Intelligence modules with confidence scoring, Journey Reconstruction workflows, and Logic Gap Detection. A FastAPI backend serves the analysis to a Next.js dashboard, with PostgreSQL handling application data and JWT-based authentication."
+      ]),
+      features: section(
+        "features",
+        "Key Features",
+        [],
+        [
+          "Repository upload via ZIP or Git URL with AST-based parsing.",
+          "Interactive Software Knowledge Graph visualized with React Flow.",
+          "Domain Inference Engine that identifies the application's business domain.",
+          "Capability Intelligence with confidence scoring for detected features.",
+          "User Journey Reconstruction from code-level evidence.",
+          "Logic Gap Detection surfacing missing or incomplete flows.",
+          "Evidence-backed AI explanations for every insight.",
+          "Interactive analysis dashboard with report generation."
+        ]
+      ),
+      techStack: section("tech-stack", "Tech Stack", [
+        "Next.js, React, TypeScript, and Tailwind CSS on the frontend; FastAPI and Python on the backend; PostgreSQL and Neo4j for data and graph storage; OpenAI / OpenRouter for LLM reasoning; React Flow for graph visualization; JWT authentication; Docker for deployment."
+      ]),
+      developmentProcess: section("development-process", "Development Process", []),
+      challenges: section("challenges", "Challenges", []),
+      results: section("results", "Results", [
+        "Transforms raw source code into business insight: repositories are parsed into a knowledge graph, then reasoned over to produce domains, capabilities, journeys, and logic gaps — each backed by explainable evidence and confidence scores."
+      ]),
+      futureImprovements: section("future-improvements", "Future Improvements", []),
+      gallery: [
+        { alt: "CodeAtlas knowledge graph visualization" },
+        { alt: "CodeAtlas analysis dashboard" },
+      ],
+    },
+  },
+  {
     slug: "voltpark",
     title: "Voltpark (Smart Parking & EV Charging)",
     summary:
       "EV charging booking and management platform — product experience, authentication, dashboards, and booking workflows built on React, Supabase, Tailwind CSS, and Razorpay.",
     tech: ["React", "Supabase", "Tailwind CSS", "Razorpay"],
+    links: {
+      github: "https://github.com/neevrambhia06/Voltpark",
+      live: "https://voltpark-kappa.vercel.app/",
+    },
     featured: true,
     caseStudy: {
       overview: section("overview", "Overview", [
